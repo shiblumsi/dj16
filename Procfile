@@ -1,0 +1,1 @@
+web: gunicorn buskate.wsgi --log-file -

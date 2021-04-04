@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+		.thumbnail{
+		width: 200px;
+		height:200px;
+		margin: 0 auto;
+		border-radius: 0%;
+	}
+</style>
+
+<br>
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<a class="btn btn-warning" href="{% url 'home' %}"> &#8592; Back to Profile</a>
+			<hr>
+			<h3 style="text-align: center">Account Settings</h3>
+			<hr>
+			<img class="profile-pic" src="{{request.user.person.profile_pic.url}}" >
+
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="card card-body">
+
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{create_form.as_p}}
+
+			<input class="btn btn-primary" type="submit" name="Update Information">
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<div class="container">
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <br>
+      {% for p in posts %}
+
+        <div style="text-align : center">
+            <div class="card border-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">{{p.author}}</div>
+                <div class="card-body">
+                    <a href="{% url 'post_detail' p.pk %}"><h5 class="card-title">{{p.title}}</h5></a>
+                    <p class="card-text">{{p.text_aria}}</p>
+					      {% if p.pic %}
+    <img class="thumbnail" src="{{p.pic.url}}">
+      {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+{% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

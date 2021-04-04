@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+
+<style>
+	.thumbnail{
+		width: 200px;
+		height:200px;
+		margin: 0 auto;
+		border-radius: 0%;
+	}
+</style>
+<br>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="card border-info mb-3" style="max-width: 18rem;">
+              <div class="card-header">{{post.author}}</div>
+              <div class="card-body">
+                <a href="{% url 'post_detail' post.pk %}"><h5 class="card-title">{{post.title}}</h5></a>
+                <p class="card-text">{{post.text_aria}}</p>
+                {% if post.pic %}
+                    <img class="thumbnail" src="{{post.pic.url}}">
+                {% endif %}
+              </div>
+            </div>
+            Views -{{post.total_view}}<br>
+            Liked -{{post.total_like}}<br>
+
+            <form method="post" action="/like_post/{{post.pk}}">
+                {% csrf_token %}
+
+                {% if liked %}
+                <button type="submit" class="btn btn-danger">Disike</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">Like</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div>
+    <form method="post" action="/add_comment/{{post.pk}}">
+    {% csrf_token %}
+    <input type="text" name="comment" placeholder="enter your comment" class="form-control">
+    <input type="hidden" name="post_id" value="{{post.pk}}">
+
+    <input type="submit" value="addcomment">
+</form>
+</div>
+
+<br>
+
+<div>
+    {% for com in comments %}
+<div >
+
+
+        <b>{{com.user.username}}</b>
+        <span class="bedge bedge-info">{{com.date | timesince }} ago</span>
+        <div> {{com.text}}</div>
+
+
+<!--        <div class="container">-->
+<!--            <div class="container">-->
+<!--                <div class="container">-->
+<!--                    <div class="container">-->
+<!--                        <form method="post" action="/add_reply/{{com.pk}}">-->
+<!--                    {% csrf_token %}-->
+<!--                    <input type="text" name="reply" placeholder="your replay">-->
+
+<!--                    <input type="hidden" name="comment_id" value="{{com.id}}">-->
+<!--                    <input type="submit" value="replay">-->
+<!--                </form>-->
+
+<!--                        {% for rep in replies %}-->
+<!--                        {{rep.reply_text}}-->
+<!--                        {{rep.replayed_at}}-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--         </div>-->
+<!--    </div>-->
+
+
+
+
+
+
+
+
+
+
+{% endfor %}
+</div>
+
+
+
+{% endblock %}

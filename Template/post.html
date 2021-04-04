@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<style>
+	.thumbnail{
+		width: 200px;
+		height:200px;
+		margin: 0 auto;
+		border-radius: 0%;
+	}
+</style>
+<div class="container">
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <br>
+{% for p in posts %}
+
+
+<div style="text-align : center">
+    <div class="card border-info mb-3" style="max-width: 18rem;">
+  <div class="card-header">{{p.author}}</div>
+  <div class="card-body">
+    <a href="{% url 'post_detail' p.pk %}"><h5 class="card-title">{{p.title}}</h5></a>
+    <p class="card-text">{{p.text_aria}}</p>
+      {% if p.pic %}
+    <img class="thumbnail" src="{{p.pic.url}}">
+      {% endif %}
+
+  </div>
+
+</div>
+</div>
+
+
+
+
+
+{% endfor %}
+</div>
+</div>
+</div>
+
+{% endblock %}
